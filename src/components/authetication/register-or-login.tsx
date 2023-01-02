@@ -1,26 +1,38 @@
-import UserCreate from "../model/Users/UserCreate";
 import {useState} from "react";
 import useAuthHook from "./use-auth.hook";
 import {NavLink} from "react-router-dom";
 
-function Register() {
-    const defaultUser: UserCreate = {
-        email: "",
-        password: "",
-        username: ""
+type RegisterProps = {
+    isLogin: boolean
+}
+
+function RegisterOrLogin({isLogin}: RegisterProps) {
+
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const {disableSubmitBtn, errors, hasErrors, signUp, login} = useAuthHook();
+
+
+    const submit = () => {
+        if (isLogin) {
+            login({email: email, password: password});
+            return;
+        }
+        signUp({email: email, password: password, username: username});
     }
 
-    const [user, setUser] = useState<UserCreate>(defaultUser);
-    const {disableSignUp, errors, hasErrors, signUp} = useAuthHook();
-
+    const txt = isLogin ? 'Sign in' : 'Sign up';
+    const link = isLogin ? <NavLink to="/register">Need an account?</NavLink> :
+        <NavLink to="/login">Have an account?</NavLink>
     return (
         <div className="auth-page">
             <div className="container page">
                 <div className="row">
                     <div className="col-md-6 offset-md-3 col-xs-12">
-                        <h1 className="text-xs-center">Sign up</h1>
+                        <h1 className="text-xs-center">{txt}</h1>
                         <p className="text-xs-center">
-                            <NavLink to="/login">Have an account?</NavLink>
+                            {link}
                         </p>
                         {hasErrors &&
                             <ul className="error-messages">{
@@ -32,28 +44,26 @@ function Register() {
                         }
                         <form onSubmit={e => e.preventDefault()}>
                             <fieldset className="form-group">
-                                <input
+                                {!isLogin && (<input
                                     className="form-control form-control-lg"
                                     type="text"
                                     placeholder="Your Name"
-                                    onChange={(e) => {
-                                        setUser((user) => ({...user, username: e.target.value}))
-                                    }}/>
-                            </fieldset>
+                                    onChange={(e) => setUsername(e.target.value)}/>)
+                                }</fieldset>
                             <fieldset className="form-group">
                                 <input className="form-control form-control-lg" type="text" placeholder="Email"
                                        onChange={(e) => {
-                                           setUser((user) => ({...user, email: e.target.value}))
+                                           setEmail(e.target.value)
                                        }}
                                 />
                             </fieldset>
                             <fieldset className="form-group">
                                 <input className="form-control form-control-lg" type="password" placeholder="Password"
-                                       onChange={(e) => setUser({...user, password: e.target.value})}/>
+                                       onChange={(e) => setPassword(e.target.value)}/>
                             </fieldset>
                             <button className="btn btn-lg btn-primary pull-xs-right"
-                                    disabled={disableSignUp}
-                                    onClick={() => signUp(user)}>Sign up
+                                    disabled={disableSubmitBtn}
+                                    onClick={() => submit()}>{txt}
                             </button>
                         </form>
                     </div>
@@ -63,4 +73,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default RegisterOrLogin;
