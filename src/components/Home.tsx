@@ -1,10 +1,7 @@
-import Navbar from "./layout/Navbar";
 import React from "react";
-import Footer from "./layout/Footer";
 function Home() {
     return (
         <>
-            <Navbar/>
             <div className="home-page">
                 <div className="banner">
                     <div className="container">
@@ -83,7 +80,6 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <Footer/>
         </>
     );
 }

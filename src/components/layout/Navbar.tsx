@@ -1,24 +1,27 @@
+import React from "react";
+import {NavLink} from "react-router-dom";
+
 function Navbar() {
     return (
         <>
             <nav className="navbar navbar-light">
                 <div className="container">
-                    <a className="navbar-brand" href="index.html">conduit</a>
+                    <NavLink className="navbar-brand" to={"/"}>conduit</NavLink>
                     <ul className="nav navbar-nav pull-xs-right">
                         <li className="nav-item">
-                            <a className="nav-link active" href="">Home</a>
+                            <NavLink className="nav-link active" to="">Home</NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href=""> <i className="ion-compose"></i>&nbsp;New Article </a>
+                            <NavLink className="nav-link" to=""> <i className="ion-compose"></i>&nbsp;New Article </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href=""> <i className="ion-gear-a"></i>&nbsp;Settings </a>
+                            <NavLink className="nav-link" to=""> <i className="ion-gear-a"></i>&nbsp;Settings </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="">Sign in</a>
+                            <NavLink className="nav-link" to="">Sign in</NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="">Sign up</a>
+                            <NavLink className="nav-link" to="/login">Sign up</NavLink>
                         </li>
                     </ul>
                 </div>
