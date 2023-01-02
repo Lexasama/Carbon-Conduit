@@ -8,10 +8,10 @@ function Navbar() {
     const renderConnectedNavBar = () => {
         return (<>
             <li className="nav-item">
-                <a className="nav-link" href=""> <i className="ion-compose"></i>&nbsp;New Article </a>
+                <NavLink className="nav-link" to=""> <i className="ion-compose"></i>&nbsp;New Article </NavLink>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href=""> <i className="ion-gear-a"></i>&nbsp;Settings </a>
+                <NavLink className="nav-link" to=""> <i className="ion-gear-a"></i>&nbsp;Settings </NavLink>
             </li>
         </>);
     }
@@ -19,15 +19,15 @@ function Navbar() {
         return (
             <>
                 <li className="nav-item">
-                    <a className="nav-link" href="">Sign in</a>
+                    <NavLink className="nav-link" to="/login">Sign in</NavLink>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="">Sign up</a>
+                    <NavLink className="nav-link" to="/register">Sign up</NavLink>
                 </li>
             </>
         )
     }
-    const part = isConnected ? renderConnectedNavBar() : renderNavBar();
+    const navbarPart = isConnected ? renderConnectedNavBar() : renderNavBar();
 
     return (
         <>
@@ -38,8 +38,7 @@ function Navbar() {
                         <li className="nav-item">
                             <NavLink className="nav-link active" to="/">Home</NavLink>
                         </li>
-                        {part}
-
+                        {navbarPart}
                     </ul>
                 </div>
             </nav>
