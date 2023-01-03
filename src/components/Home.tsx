@@ -13,7 +13,7 @@ function Home() {
     const [tagList, setTagList] = useState<string[]>([]);
     const [selectedTag, setSelectedTag] = useState<string>("");
     const handleSelectedTag = (tag: string) => {
-        setFeedToggle(3);
+        setFeedToggle(2);
         setSelectedTag(tag)
     };
 
