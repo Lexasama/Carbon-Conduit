@@ -66,3 +66,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - User has a message error when email or password is invalid.
 - User can not click on log in button when a log in action in ongoing.
 - User has `new article` &  `settings` on navbar.
+
+## User story 3 : User can see articles
+

@@ -43,6 +43,7 @@ const useAuthHook = () => {
         if (response.ok) {
             const result = await response.json()
             setToken(result.token);
+            localStorage.setItem("jwtToken", result.user.token)
             setUser(result);
             navigate("/")
             return;

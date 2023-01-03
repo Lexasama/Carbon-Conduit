@@ -1,6 +1,6 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
-import useAuthHook from "../authetication/use-auth.hook";
+import useAuthHook from "../authentification/use-auth.hook";
 
 function Navbar() {
     const {isConnected} = useAuthHook();

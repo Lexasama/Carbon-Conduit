@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Footer from "../layout/Footer";
 import Navbar from "../layout/Navbar";
-import RegisterOrLogin from "../authetication/register-or-login";
+import RegisterOrLogin from "../authentification/register-or-login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "../Home";
 

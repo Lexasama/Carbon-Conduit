@@ -6,11 +6,12 @@ export async function toJSON(resp: Response) {
 type RequestMethod = 'POST' | 'PUT' | 'DELETE' | 'GET';
 
 async function send(url: string, method: RequestMethod, data?: any, contentType?: string, isRetrying = false): Promise<Response> {
+    const jwtToken = localStorage.getItem('jwtToken');
     let options: any = {
         method: method,
         headers: {
             "Content-Type": contentType,
-            'Authorization': `Token `
+            'Authorization': !!jwtToken ? `Token ${jwtToken}` : ''
         },
         mode: 'cors',
     };
@@ -20,7 +21,6 @@ async function send(url: string, method: RequestMethod, data?: any, contentType?
     const result =  await fetch(url, options);
 
     if(result.status === 401 && !isRetrying){
-        // await useAuthHook.refreshToken();
         await send(url, method, contentType, contentType, true);
     }
 

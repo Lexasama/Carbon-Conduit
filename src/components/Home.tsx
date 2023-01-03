@@ -1,5 +1,31 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import useAuthHook from "./authentification/use-auth.hook";
+import TagList from "./tags/tag-list";
+import classNames from "classnames";
+import {getTags} from "./tags/tag-api";
+import Feed from "./articles/feed";
+
 function Home() {
+
+    const {isConnected} = useAuthHook();
+    const [feedToggle, setFeedToggle] = useState(isConnected ? 0 : 1);
+    const [tagList, setTagList] = useState<string[]>([]);
+    const [selectedTag, setSelectedTag] = useState<string>("");
+    const handleSelectedTag = (tag: string) => {
+        setFeedToggle(3);
+        setSelectedTag(tag)
+    };
+
+    useEffect(() => {
+        initTags();
+    }, []);
+
+    const initTags = async () => {
+        const tags = await getTags();
+        setTagList(tags)
+    }
+
     return (
         <>
             <div className="home-page">
@@ -16,65 +42,32 @@ function Home() {
                             <div className="feed-toggle">
                                 <ul className="nav nav-pills outline-active">
                                     <li className="nav-item">
-                                        <a className="nav-link disabled" href="">Your Feed</a>
+                                        <Link to="/"
+                                              hidden={!isConnected}
+                                              className={classNames('nav-link', {'active': feedToggle === 1})}
+                                              onClick={() => setFeedToggle(1)}
+                                        >Your Feed</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link active" href="">Global Feed</a>
+                                        <Link to="/" className={classNames('nav-link', {'active': feedToggle === 0})}
+                                              onClick={() => setFeedToggle(0)}>Global Feed</Link>
                                     </li>
+                                    {selectedTag !== "" && (
+                                        <li className="nav-item">
+                                            <Link to="/"
+                                                  className={classNames('nav-link', {'active': feedToggle === 2})}
+                                                  onClick={() => setFeedToggle(2)}>{`#${selectedTag}`}</Link>
+                                        </li>)}
                                 </ul>
                             </div>
-
-                            <div className="article-preview">
-                                <div className="article-meta">
-                                    <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
-                                    <div className="info">
-                                        <a href="" className="author">Eric Simons</a>
-                                        <span className="date">January 20th</span>
-                                    </div>
-                                    <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                        <i className="ion-heart"></i> 29
-                                    </button>
-                                </div>
-                                <a href="" className="preview-link">
-                                    <h1>How to build webapps that scale</h1>
-                                    <p>This is the description for the post.</p>
-                                    <span>Read more...</span>
-                                </a>
-                            </div>
-
-                            <div className="article-preview">
-                                <div className="article-meta">
-                                    <a href="profile.html"><img src="http://i.imgur.com/N4VcUeJ.jpg"/></a>
-                                    <div className="info">
-                                        <a href="" className="author">Albert Pai</a>
-                                        <span className="date">January 20th</span>
-                                    </div>
-                                    <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                        <i className="ion-heart"></i> 32
-                                    </button>
-                                </div>
-                                <a href="" className="preview-link">
-                                    <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-                                    <p>This is the description for the post.</p>
-                                    <span>Read more...</span>
-                                </a>
-                            </div>
+                            {feedToggle === 0 && (<Feed query={"/feed?"} url="/" limit={10}/>)}
+                            {feedToggle === 1 && (<Feed query={"?"} url="/" limit={10}/>)}
+                            {feedToggle === 2 && (<Feed query={`?tag=${selectedTag}&`} url="/" limit={10}/>)}
                         </div>
 
                         <div className="col-md-3">
                             <div className="sidebar">
-                                <p>Popular Tags</p>
-
-                                <div className="tag-list">
-                                    <a href="" className="tag-pill tag-default">programming</a>
-                                    <a href="" className="tag-pill tag-default">javascript</a>
-                                    <a href="" className="tag-pill tag-default">emberjs</a>
-                                    <a href="" className="tag-pill tag-default">angularjs</a>
-                                    <a href="" className="tag-pill tag-default">react</a>
-                                    <a href="" className="tag-pill tag-default">mean</a>
-                                    <a href="" className="tag-pill tag-default">node</a>
-                                    <a href="" className="tag-pill tag-default">rails</a>
-                                </div>
+                                <TagList tagList={tagList} onClick={handleSelectedTag}></TagList>
                             </div>
                         </div>
                     </div>
