@@ -5,6 +5,7 @@ import Navbar from "../layout/Navbar";
 import RegisterOrLogin from "../authentification/register-or-login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "../Home";
+import ArticlePage from "../../pages/article-page";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/" element={<Home/>}></Route>
                 <Route path="/register" element={<RegisterOrLogin isLogin={false}/>}></Route>
                 <Route path="/login" element={<RegisterOrLogin isLogin={true}/>}></Route>
+                <Route path="/article/:articleSlug" element={<ArticlePage/>}></Route>
             </Routes>
             <Footer/>
         </BrowserRouter>

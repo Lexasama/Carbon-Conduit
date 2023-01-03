@@ -10,7 +10,7 @@ const useAuthHook = () => {
     const navigate = useNavigate();
     const URL: string = process.env.REACT_APP_BACKEND + "/users";
     const [accessToken, setToken] = useState("");
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User>({bio: "", email: "", token: "", username: ""});
     const [errors, setErrors] = useState<string[]>([]);
     const [disableSubmitBtn, setDisDisableSubmitBtn] = useState(false);
 
@@ -41,10 +41,10 @@ const useAuthHook = () => {
         });
 
         if (response.ok) {
-            const result = await response.json()
-            setToken(result.token);
-            localStorage.setItem("jwtToken", result.user.token)
-            setUser(result);
+            const {user}: {user: User}  = await response.json()
+            setToken(user.token);
+            localStorage.setItem("jwtToken", user.token)
+            setUser(user);
             navigate("/")
             return;
         }
@@ -72,7 +72,8 @@ const useAuthHook = () => {
         isConnected,
         hasErrors,
         login,
-        signUp
+        signUp,
+        user
     }
 };
 
