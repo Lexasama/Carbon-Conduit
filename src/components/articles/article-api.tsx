@@ -9,14 +9,14 @@ export const getArticles = async (query: string): Promise<Articles> => {
 }
 
 export const getArticle = async (slug: string): Promise<Article> => {
-    const response = await getAsync(`${URL}/${slug}`);
+    const response = await getAsync(`${URl}/${slug}`);
     const result = await response.json();
     return result.article;
 }
 
 export const getArticleFeed = async (): Promise<Articles> => {
 
-    const response = await getAsync(`${URL}/feed`);
+    const response = await getAsync(`${URl}/feed`);
 
     return (await response.json())
 }

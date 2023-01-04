@@ -3,7 +3,7 @@ type User = {
     token: string,
     username: string,
     bio: string,
-    //todo add image
+    image: string
 }
 
 export default User;

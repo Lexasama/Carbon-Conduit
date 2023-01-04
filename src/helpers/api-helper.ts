@@ -11,14 +11,14 @@ async function send(url: string, method: RequestMethod, data?: any, contentType?
         method: method,
         headers: {
             "Content-Type": contentType,
-            'Authorization': !!jwtToken ? `Token ${jwtToken}` : ''
+            'Authorization': `Token ${jwtToken}`
         },
         mode: 'cors',
     };
     if (data) options.body = JSON.stringify(data);
     if (contentType) options.headers['Content-Type'] = contentType;
 
-    const result =  await fetch(url, options);
+    const result = await fetch(url, options);
 
     if(result.status === 401 && !isRetrying){
         await send(url, method, contentType, contentType, true);

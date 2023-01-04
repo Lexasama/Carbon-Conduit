@@ -9,7 +9,7 @@ import Feed from "./articles/feed";
 function Home() {
 
     const {isConnected} = useAuthHook();
-    const [feedToggle, setFeedToggle] = useState(isConnected ? 0 : 1);
+    const [feedToggle, setFeedToggle] = useState(isConnected ? 1 : 0);
     const [tagList, setTagList] = useState<string[]>([]);
     const [selectedTag, setSelectedTag] = useState<string>("");
     const handleSelectedTag = (tag: string) => {
@@ -60,8 +60,8 @@ function Home() {
                                         </li>)}
                                 </ul>
                             </div>
-                            {feedToggle === 0 && (<Feed query={"/feed?"} url="/" limit={10}/>)}
-                            {feedToggle === 1 && (<Feed query={"?"} url="/" limit={10}/>)}
+                            {feedToggle === 0 && (<Feed query={"?"} url="/" limit={10}/>)}
+                            {(feedToggle === 1 && isConnected) && (<Feed query={"/feed?"} url="/" limit={10}/>)}
                             {feedToggle === 2 && (<Feed query={`?tag=${selectedTag}&`} url="/" limit={10}/>)}
                         </div>
 

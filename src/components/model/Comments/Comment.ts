@@ -1,6 +1,6 @@
 import Profile from "../Users/Profile";
 
-type Comment = {
+type CommentModel = {
     id: number,
     createdAt: string,
     updatedAt: string,
@@ -8,4 +8,4 @@ type Comment = {
     author: Profile
 }
 
-export default Comment;
+export default CommentModel;
