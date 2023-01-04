@@ -3,16 +3,16 @@ import {useState} from "react";
 import User from "../model/Users/User";
 import {useNavigate} from "react-router-dom";
 import UserLogin from "../model/Users/UserLogin";
-import userLogin from "../model/Users/UserLogin";
 
 const useAuthHook = () => {
 
     const navigate = useNavigate();
     const URL: string = process.env.REACT_APP_BACKEND + "/users";
-    const [accessToken, setToken] = useState("");
-    const [user, setUser] = useState<User>({bio: "", email: "", token: "", username: ""});
+    const [user, setUser] = useState<User>({bio: "", email: "", token: "", username: "", image: ""});
     const [errors, setErrors] = useState<string[]>([]);
     const [disableSubmitBtn, setDisDisableSubmitBtn] = useState(false);
+
+    const [token, setToken] = useState<string>(localStorage.getItem('jwtToken') ?? '')
 
     type ErrorType = {
         errors: {
@@ -28,7 +28,7 @@ const useAuthHook = () => {
         return errorMsg
     }
 
-    const sendRegisterOrLogin = async (user: UserCreate | userLogin, isLogin: boolean) => {
+    const sendRegisterOrLogin = async (user: UserCreate | UserLogin, isLogin: boolean) => {
         setDisDisableSubmitBtn(true);
         const url = isLogin ? URL + '/login' : URL;
 
@@ -41,10 +41,11 @@ const useAuthHook = () => {
         });
 
         if (response.ok) {
-            const {user}: {user: User}  = await response.json()
-            setToken(user.token);
-            localStorage.setItem("jwtToken", user.token)
+            const {user}: { user: User } = await response.json();
             setUser(user);
+            setToken(user.token);
+            console.log(user.token)
+            localStorage.setItem('jwtToken', user.token);
             navigate("/")
             return;
         }
@@ -58,15 +59,20 @@ const useAuthHook = () => {
         await sendRegisterOrLogin(user, true);
     }
 
+    const logout = async () => {
+        setToken('');
+        localStorage.setItem('jwtToken', '')
+    }
+
     async function signUp(user: UserCreate) {
         await sendRegisterOrLogin(user, false)
     }
 
-    const isConnected = user?.token !== "";
+    const isConnected = user.token !== '';
     const hasErrors = errors.length > 0;
 
     return {
-        accessToken,
+        token,
         disableSubmitBtn,
         errors,
         isConnected,

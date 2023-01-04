@@ -1,9 +1,9 @@
-import Comment from '../model/Comments/Comment'
+import CommentModel from '../model/Comments/Comment'
 import {Link} from "react-router-dom";
 import {convertToDate} from "../../utils";
 import useAuthHook from "../authentification/use-auth.hook";
 
-const Comment = ({comment, removeComment}: { comment: Comment, removeComment: (id: number) => void }) => {
+const Comment = ({comment, removeComment}: { comment: CommentModel, removeComment: (id: number) => void }) => {
 
     const {user} = useAuthHook();
     return (
